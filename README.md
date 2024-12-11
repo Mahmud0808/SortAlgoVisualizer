@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SortAlgoVisualizer 🎨📊
 
-## Getting Started
+A visualizer for various sorting algorithms built with **Next.js 15** and **Tailwind CSS**. Explore and learn how different sorting algorithms work! 🚀
 
-First, run the development server:
+## Algorithms Implemented 🧑‍💻
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project showcases the following sorting algorithms:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Bubble Sort** 🌀
+- **Cocktail Shaker Sort** 🍸
+- **Heap Sort** 🏰
+- **Insertion Sort** 📝
+- **Merge Sort** 🔀
+- **Quick Sort** ⚡
+- **Selection Sort** 🎯
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Each algorithm is visualized step by step, showing how elements are compared, swapped, and moved into their correct position.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features ✨
 
-## Learn More
+- Interactive visualizations of sorting algorithms
+- Real-time animations for each algorithm
+- Easy-to-understand UI built with Tailwind CSS
+- Fast and responsive design
+- Customizable input to control the speed of sorting
 
-To learn more about Next.js, take a look at the following resources:
+## Installation 🚧
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Mahmud0808/SortAlgoVisualizer.git
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Navigate to the project folder:
+   ```bash
+   cd SortAlgoVisualizer
+   ```
 
-## Deploy on Vercel
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Open your browser and visit `http://localhost:3000` to view the SortAlgoVisualizer!
+
+## Usage 🎮
+
+- Select any sorting algorithm from the UI.
+- Adjust the speed settings.
+- Hit the "Start" button to watch the algorithm sort the array in real-time.
+- Reset, and change the settings as needed.
+
+## Contributing 🤝
+
+Feel free to fork the repo and open a pull request if you want to add new features or fix bugs! Contributions are always welcome.
