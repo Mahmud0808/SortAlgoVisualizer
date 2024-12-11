@@ -1,101 +1,133 @@
-import Image from "next/image";
+"use client";
+
+import Select from "@/components/ui/Select";
+import Slider from "@/components/ui/Slider";
+import { useSortingAlgorithmContext } from "@/lib/context/Visualizer";
+import { SortingAlgorithmType } from "@/lib/types";
+import {
+  algorithmOptions,
+  generateAnimationArray,
+  sortingAlgorithmsData,
+} from "@/lib/utils";
+import { FaPlayCircle } from "react-icons/fa";
+import { RxReset } from "react-icons/rx";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const {
+    arrayToSort,
+    isSorting,
+    selectedAlgorithm,
+    requiresReset,
+    animationSpeed,
+    setAnimationSpeed,
+    setSelectedAlgorithm,
+    runAnimation,
+    reset,
+  } = useSortingAlgorithmContext();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedAlgorithm(e.target.value as SortingAlgorithmType);
+  };
+
+  const handlePlay = () => {
+    if (requiresReset) {
+      reset();
+      return;
+    }
+
+    generateAnimationArray(
+      selectedAlgorithm,
+      isSorting,
+      arrayToSort,
+      runAnimation
+    );
+  };
+
+  return (
+    <main className="absolute top-0 h-screen w-screen z-[-2] bg-slate-950 bg-[radial-gradient(#ffffff1a_1px,#020617_1px)] bg-[size:40px_40px]">
+      <div className="flex h-full justify-center">
+        <div
+          id="content-container"
+          className="flex max-w-[1080px] w-full flex-col px-4 lg:px-0"
+        >
+          <div className="w-full relative flex flex-col md:flex-row items-center justify-between">
+            <h1 className="text-slate-300 text-2xl font-light my-4">
+              Sorting Visualizer
+            </h1>
+            <div className="flex items-center justify-center gap-4 flex-col md:flex-row">
+              <Slider
+                value={animationSpeed}
+                handleChange={(e) => setAnimationSpeed(Number(e.target.value))}
+                isDisabled={isSorting}
+              />
+              <div className="flex items-center justify-center gap-4">
+                <Select
+                  options={algorithmOptions}
+                  defaultValue={selectedAlgorithm}
+                  onChange={handleSelectChange}
+                  isDisabled={isSorting}
+                />
+                <button
+                  className="flex items-center justify-center"
+                  onClick={handlePlay}
+                >
+                  {requiresReset ? (
+                    <RxReset className="text-slate-400 h-8 w-8" />
+                  ) : (
+                    <FaPlayCircle className="text-green-500 h-8 w-8" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="hidden sm:flex absolute top-[120%] left-0 w-full backdrop-blur-sm">
+              <div className="flex w-full text-slate-400 p-4 rounded-md border border-slate-600 bg-slate-800 bg-opacity-10 gap-6">
+                <div className="flex flex-col items-start justify-start w-3/4">
+                  <h3 className="text-lg">
+                    {sortingAlgorithmsData[selectedAlgorithm].title}
+                  </h3>
+                  <p className="text-sm text-grey-500 pt-2">
+                    {sortingAlgorithmsData[selectedAlgorithm].description}
+                  </p>
+                </div>
+                <div className="flex flex-col items-start justify-start w-1/4 gap-2">
+                  <h3 className="text-lg">Time Complexity</h3>
+                  <div className="flex flex-col gap-2">
+                    <p className="flex w-full text-sm text-slate-400/80">
+                      <span className="w-28">Worst Case:</span>
+                      <span>
+                        {sortingAlgorithmsData[selectedAlgorithm].worstCase}
+                      </span>
+                    </p>
+                    <p className="flex w-full text-sm text-slate-400/80">
+                      <span className="w-28">Average Case:</span>
+                      <span>
+                        {sortingAlgorithmsData[selectedAlgorithm].averageCase}
+                      </span>
+                    </p>
+                    <p className="flex w-full text-sm text-slate-400/80">
+                      <span className="w-28">Best Case:</span>
+                      <span>
+                        {sortingAlgorithmsData[selectedAlgorithm].bestCase}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="relative h-full w-full">
+            <div className="absolute bottom-[32px] w-full mx-auto left-0 right-0 flex justify-center items-end">
+              {arrayToSort.map((value, index) => (
+                <div
+                  key={index}
+                  className="array-line default-line-color relative w-4 mx-0.5 shadow-lg rounded-sm"
+                  style={{ height: `${value}px` }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
 }
