@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #020617; /* Slate 950 */
+  --foreground: #f8fafc; /* Slate 50 */
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.array-line {
+  @apply bg-blue-500 opacity-90 absolute bottom-0 shadow-[0_0_8px_rgba(59,130,246,0.6)];
+  width: 14px;
+  /* mx-0.5 was used before. Width 14 + 4px spacing = 18px total offset handled in JS */
+  border-radius: 4px 4px 0 0;
+  transition-property: left, height, background-color, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: left, height, transform, background-color;
+}
+
+.array-line.comparing {
+  @apply bg-orange-400 z-10;
+  transform: translateY(-8px);
+  box-shadow: 0 0 15px rgba(251, 146, 60, 0.9);
+}
+
+.array-line.swapping {
+  @apply bg-purple-500 z-20;
+  transform: translateY(-12px);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 1);
+}
+
+.array-line.sorted {
+  @apply bg-green-500;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+}
+
+/* Custom sleek scrollbar for main window */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0);
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb,
+.custom-scrollbar:active::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
